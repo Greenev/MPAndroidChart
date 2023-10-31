@@ -14,9 +14,9 @@ import com.github.mikephil.charting.utils.ViewPortHandler;
 
 public class DoubleXLabelAxisRenderer extends XAxisRenderer {
 
-    private final IAxisValueFormatter valueFormatter;
+    public final Callback callback;
 
-    private final Callback callback;
+    private final IAxisValueFormatter valueFormatter;
 
     public DoubleXLabelAxisRenderer(
             ViewPortHandler viewPortHandler,
