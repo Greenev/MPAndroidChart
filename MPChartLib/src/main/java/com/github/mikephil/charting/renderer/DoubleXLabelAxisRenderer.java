@@ -14,9 +14,13 @@ import com.github.mikephil.charting.utils.ViewPortHandler;
 
 public class DoubleXLabelAxisRenderer extends XAxisRenderer {
 
-    private final IAxisValueFormatter valueFormatter;
+    public interface Callback {
+        void invoke(Canvas canvas, Transformer mTrans);
+    }
 
     private final Callback callback;
+
+    private final IAxisValueFormatter valueFormatter;
 
     public DoubleXLabelAxisRenderer(
             ViewPortHandler viewPortHandler,
@@ -115,10 +119,6 @@ public class DoubleXLabelAxisRenderer extends XAxisRenderer {
             drawLabels(c, mViewPortHandler.contentBottom() + yoffset, pointF);
         }
         MPPointF.recycleInstance(pointF);
-    }
-
-    interface Callback {
-        void invoke(Canvas canvas, Transformer mTrans);
     }
 
     private void drawLabelsTop(Canvas c, float pos, MPPointF anchor) {
