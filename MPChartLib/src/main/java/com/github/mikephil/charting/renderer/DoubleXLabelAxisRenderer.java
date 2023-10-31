@@ -5,7 +5,7 @@ import android.graphics.Path;
 
 import com.github.mikephil.charting.components.LimitLine;
 import com.github.mikephil.charting.components.XAxis;
-import com.github.mikephil.charting.formatter.ValueFormatter;
+import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 import com.github.mikephil.charting.utils.MPPointD;
 import com.github.mikephil.charting.utils.MPPointF;
 import com.github.mikephil.charting.utils.Transformer;
@@ -14,7 +14,7 @@ import com.github.mikephil.charting.utils.ViewPortHandler;
 
 public class DoubleXLabelAxisRenderer extends XAxisRenderer {
 
-    private final ValueFormatter valueFormatter;
+    private final IAxisValueFormatter valueFormatter;
 
     private final Callback callback;
 
@@ -22,7 +22,7 @@ public class DoubleXLabelAxisRenderer extends XAxisRenderer {
             ViewPortHandler viewPortHandler,
             XAxis xAxis,
             Transformer transformer,
-            ValueFormatter formatter,
+            IAxisValueFormatter formatter,
             Callback callback
     ) {
         super(viewPortHandler, xAxis, transformer);
@@ -38,7 +38,7 @@ public class DoubleXLabelAxisRenderer extends XAxisRenderer {
         int clipRestoreCount = c.save();
         c.clipRect(getGridClippingRect());
 
-        if(mRenderGridLinesBuffer.length != mAxis.mEntryCount * 2){
+        if (mRenderGridLinesBuffer.length != mAxis.mEntryCount * 2) {
             mRenderGridLinesBuffer = new float[mXAxis.mEntryCount * 2];
         }
         float[] positions = mRenderGridLinesBuffer;
@@ -48,8 +48,7 @@ public class DoubleXLabelAxisRenderer extends XAxisRenderer {
             if (pp.x < mXAxis.mEntries[i / 2] - 0.5f) {
                 positions[i] = mXAxis.mEntries[i / 2] - 0.5f;
                 positions[i + 1] = mXAxis.mEntries[i / 2] - 0.5f;
-            }
-            else if (i == 0) {
+            } else if (i == 0) {
                 positions[i] = mXAxis.mEntries[(positions.length - 1) / 2] + 0.5f;
                 positions[i + 1] = mXAxis.mEntries[(positions.length - 1) / 2] + 0.5f;
             } else {
@@ -144,7 +143,7 @@ public class DoubleXLabelAxisRenderer extends XAxisRenderer {
         for (int i = 0; i < positions.length; i += 2) {
             float x = positions[i];
             if (mViewPortHandler.isInBoundsX(x)) {
-                String label = valueFormatter.getAxisLabel(mXAxis.mEntries[i / 2], mXAxis);
+                String label = valueFormatter.getFormattedValue(mXAxis.mEntries[i / 2], mXAxis);
                 if (mXAxis.isAvoidFirstLastClippingEnabled()) {
                     // avoid clipping of the last
                     if (i == mXAxis.mEntryCount - 1 && mXAxis.mEntryCount > 1) {
@@ -192,7 +191,7 @@ public class DoubleXLabelAxisRenderer extends XAxisRenderer {
 
                 float value = mXAxis.mEntries[i / 2];
                 if (value > 0) {
-                    String label = mXAxis.getValueFormatter().getAxisLabel(mXAxis.mEntries[i / 2], mXAxis);
+                    String label = mXAxis.getValueFormatter().getFormattedValue(mXAxis.mEntries[i / 2], mXAxis);
                     if (mXAxis.isAvoidFirstLastClippingEnabled()) {
 
                         // avoid clipping of the last
